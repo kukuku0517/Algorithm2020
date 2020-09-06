@@ -1,3 +1,4 @@
+import java.io.Serializable
 import java.lang.Exception
 import java.util.*
 
@@ -21,8 +22,8 @@ class Solution {
 
         Func.values().forEach {
             when (it) {
-                Func.NUM -> queue.add(Result(1, mutableListOf(it), result = N, hasBracket = 0, funcSize = 1))
-                Func.OPEN -> queue.add(Result(0, mutableListOf(it), result = 0, hasBracket = 1, funcSize = 1))
+                Func.NUM -> queue.add(Result(1, arrayOf(it), result = N, hasBracket = 0, funcSize = 1))
+                Func.OPEN -> queue.add(Result(0, arrayOf(it), result = 0, hasBracket = 1, funcSize = 1))
             }
         }
         while (queue.isNotEmpty()) {
@@ -157,9 +158,18 @@ class Solution {
         return new;
     }
 
-    fun calculateResult(funcs: List<Func>, count: Int): Int? {
-        val funcStack = Stack<Func>()
-        val latterList = mutableListOf<String>()
+
+    fun Array<Func>.addCopy(func: Func): Array<Func> {
+        return arrayOf(*this, func)
+    }
+
+
+    val funcStack = Stack<Func>()
+    val latterList = mutableListOf<String>()
+    val calStack = Stack<Int>()
+
+    fun calculateResult(funcs: Array<Func>, count: Int): Int? {
+
         var tempNum = 0.0
 
         funcs.forEach {
@@ -208,8 +218,6 @@ class Solution {
 //        var a = -1.0
 //        var b = -1.0
 
-        val calStack = Stack<Int>()
-
         latterList.filterNot { it == "(" || it == ")" }.forEach {
             when (it) {
                 Func.ADD.text -> {
@@ -257,10 +265,13 @@ class Solution {
         } else {
             resultMap.set(a, count)
         }
+        println("${funcs.map { it.text }
+            .reduce { acc, s -> "$acc $s" }} [ to ] " + latterList.filter { it != "(" || it != ")" }
+            .reduce { acc, s -> "$acc $s" } + "= $a")
 
-//        println("${funcs.map { it.text }
-//            .reduce { acc, s -> "$acc $s" }} [ to ] " + latterList.filter { it != "(" || it != ")" }
-//            .reduce { acc, s -> "$acc $s" } + "= $a")
+        funcStack.clear()
+        latterList.clear()
+        calStack.clear()
 
 
         return a.toInt()
@@ -271,7 +282,7 @@ class Solution {
 
     data class Result(
         val count: Int,
-        val func: MutableList<Func>,
+        val func: Array<Func>,
         val result: Int,
         val hasBracket: Int,
         val funcSize: Int
