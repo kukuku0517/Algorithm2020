@@ -2,7 +2,7 @@ import java.lang.Exception
 import kotlin.math.log
 import kotlin.math.min
 
-class Solution {
+class Solution8 {
     companion object {
         const val DIG = "dig"
         const val LET = "let"
