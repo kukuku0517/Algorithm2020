@@ -1,6 +1,6 @@
 import java.util.*
 
-class Solution {
+class Solution9 {
     data class WordNode(
         val value: String,
         val nodes: MutableList<WordNode>,
