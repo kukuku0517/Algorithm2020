@@ -2,12 +2,10 @@ class Main {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            val result = Solution().solution(
-                "hit",
-                "cog",
-                arrayOf("hot", "dot", "dog", "lot", "log")
+            val result = Solution().trap(
+                intArrayOf(0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1)
             )
-            println(result)
+            println(result.toString())
         }
     }
 }
