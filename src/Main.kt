@@ -3,7 +3,7 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
             val result = Solution().trap(
-                intArrayOf(0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1)
+                intArrayOf(4,2,3)
             )
             println(result.toString())
         }
