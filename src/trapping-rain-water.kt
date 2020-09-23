@@ -2,34 +2,26 @@ import java.util.*
 import kotlin.math.min
 
 class Solution {
-    val stack = Stack<Pair<Int, Int>>()
 
     fun trap(height: IntArray): Int {
         var result = 0
 
-        height.forEachIndexed { index, i ->
-            var min = 0
-            if (stack.isNotEmpty()) {
-                var lastFloor = 0
-                while (stack.isNotEmpty() && i >= min && index - stack.peek().second > 1) {
-                    val last = stack.pop()
-                    println("pop ${last.first} ${last.second} / $i $index")
-                    result += (index - last.second - 1) * (min(last.first, i) - lastFloor)
-                    lastFloor = min(last.first, i)
+        if (height.isEmpty()) return 0
+        val size = height.size
+        val leftMax = Array(size) { 0 }
+        val rightMax = Array(size) { 0 }
 
-                }
-                if (i > 0 && (stack.isEmpty() || stack.peek().second >= i)) {
-                    println("push1 $i $index")
-                    stack.push(i to index)
-                }
-            } else {
-                if (i > 0) {
-                    println("push2 $i $index")
-                    stack.push(i to index)
-                }
-            }
+        leftMax[0] = height[0]
+        rightMax[size - 1] = height[size - 1]
 
-
+        (1 until size).forEach {
+            leftMax[it] = Math.max(leftMax[it - 1], height[it])
+        }
+        (1 until size).map { size - it - 1 }.forEach {
+            rightMax[it] = Math.max(rightMax[it + 1], height[it])
+        }
+        (0 until size).forEach {
+            result += Math.min(leftMax[it], rightMax[it]) - height[it]
         }
         return result
     }
